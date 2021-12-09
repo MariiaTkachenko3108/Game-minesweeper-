@@ -108,16 +108,11 @@ int game()
             packet >> x >> y;
         }
 
-        if (x != 0 || y != 0)
-        {
-            Packet packet;
-            packet >> x >> y;
-
-            if (socket.send(packet) != Socket::Done)
-            {
-                return -1;
-            }
-        }
+         if (socket.send(packet) != Socket::Done)
+         {
+             return -1;
+         }
+     
 
         */
 
