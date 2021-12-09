@@ -1,17 +1,53 @@
+#include <iostream>
 #include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
 #include <time.h>
+#include <Windows.h>
+#include <string>
+
 using namespace sf;
+using namespace std;
 
 int game()
 {
 
-    srand(time(0));
+    /*
 
-    RenderWindow app(VideoMode(400, 400), "MINESWEEPER");
+
+    IpAddress ip = IpAddress::getLocalAddress();
+    TcpSocket socket;
+    string user;
+    cin >> user;
+    if (user == "host")
+    {
+        TcpListener listener;
+        listener.listen(66666);
+        cout << "..." << endl;
+        if (listener.accept(socket) != Socket::Done)
+            return -1;
+    }
+    if (user == "client")
+    {
+        cout << "..." << endl;
+        if (socket.connect(ip, 66666, seconds(10)) != Socket::Done)
+        {
+            return -1;
+        }
+    }
+
+    */
+
+
+    //random number generator
+
+    srand(time(0));
+    RenderWindow window(VideoMode(400, 400), "MINESWEEPER");
 
     int w = 32;
     int grid[12][12];
     int sgrid[12][12]; //for showing
+
+    //texture 
 
     Texture t;
     t.loadFromFile("D:/mine/icons.jpg");
@@ -43,24 +79,44 @@ int game()
         }
     }
 
-    while (app.isOpen())
+    while (window.isOpen())
     {
-        Vector2i pos = Mouse::getPosition(app);
+        Vector2i pos = Mouse::getPosition(window);
         int x = pos.x / w;
         int y = pos.y / w;
 
         Event e;
-        while (app.pollEvent(e))
+        while (window.pollEvent(e))
         {
             if (e.type == Event::Closed)
-                app.close();
+                window.close();
 
             if (e.type == Event::MouseButtonPressed)
                 if (e.key.code == Mouse::Left) sgrid[x][y] = grid[x][y];
                 else if (e.key.code == Mouse::Right) sgrid[x][y] = 11;
         }
 
-        app.clear(Color::White);
+
+        /*
+
+
+        Packet packet;
+
+        if (socket.receive(packet) == Socket::Done)
+        {
+            Vector2f pos;
+            packet >> x >> y;
+        }
+
+         if (socket.send(packet) != Socket::Done)
+         {
+             return -1;
+         }
+
+
+        */
+
+        window.clear(Color::White);
 
         for (int i = 1; i <= 10; i++)
             for (int j = 1; j <= 10; j++)
@@ -68,10 +124,10 @@ int game()
                 if (sgrid[x][y] == 9) sgrid[i][j] = grid[i][j];
                 s.setTextureRect(IntRect(sgrid[i][j] * w, 0, w, w));
                 s.setPosition(i * w, j * w);
-                app.draw(s);
+                window.draw(s);
             }
 
-        app.display();
+        window.display();
     }
 
     return 0;
@@ -80,6 +136,7 @@ int game()
 
 int main()
 {
+
     game();
 
     return 0;
