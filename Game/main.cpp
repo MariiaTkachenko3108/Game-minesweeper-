@@ -13,7 +13,6 @@ int game()
 
     /*
 
-
     IpAddress ip = IpAddress::getLocalAddress();
     TcpSocket socket;
     string user;
@@ -36,7 +35,6 @@ int game()
     }
 
     */
-
 
     //random number generator
 
@@ -99,7 +97,6 @@ int game()
 
         /*
 
-
         Packet packet;
 
         if (socket.receive(packet) == Socket::Done)
@@ -107,12 +104,21 @@ int game()
             Vector2f pos;
             packet >> x >> y;
         }
-
          if (socket.send(packet) != Socket::Done)
          {
              return -1;
          }
 
+        if (x != 0 || y != 0)
+        {
+            Packet packet;
+            packet >> x >> y;
+
+            if (socket.send(packet) != Socket::Done)
+            {
+                return -1;
+            }
+        }
 
         */
 
